@@ -1,7 +1,9 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Layout from "./components/Layout";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
+import Layout from "./components/Layout";
 import Login from "./pages/Login";
+import Register from "./pages/Register";
+
 import Dashboard from "./pages/Dashboard";
 import AddExpense from "./pages/AddExpense";
 import DailyTracker from "./pages/DailyTracker";
@@ -9,20 +11,70 @@ import SplitExpense from "./pages/SplitExpense";
 import Balance from "./pages/Balance";
 
 function App() {
+  const isLoggedIn = !!localStorage.getItem("token");
+
   return (
     <BrowserRouter>
       <Routes>
 
-        {/* ✅ LOGIN FIRST */}
-        <Route path="/" element={<Login />} />
+        {/* ✅ PUBLIC ROUTES */}
         <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
 
-        {/* ✅ APP ROUTES */}
-        <Route path="/dashboard" element={<Layout><Dashboard /></Layout>} />
-        <Route path="/add-expense" element={<Layout><AddExpense /></Layout>} />
-        <Route path="/daily-tracker" element={<Layout><DailyTracker /></Layout>} />
-        <Route path="/split-expense" element={<Layout><SplitExpense /></Layout>} />
-        <Route path="/balance" element={<Layout><Balance /></Layout>} />
+        {/* ✅ DEFAULT */}
+        <Route path="/" element={<Navigate to="/login" />} />
+
+        {/* ✅ PROTECTED ROUTES */}
+        <Route
+          path="/dashboard"
+          element={isLoggedIn ? <Layout /> : <Navigate to="/login" />}
+        >
+          <Route index element={<Dashboard />} />
+        </Route>
+
+        <Route
+          path="/add-expense"
+          element={
+            isLoggedIn ? (
+              <Layout><AddExpense /></Layout>
+            ) : (
+              <Navigate to="/login" />
+            )
+          }
+        />
+
+        <Route
+          path="/daily-tracker"
+          element={
+            isLoggedIn ? (
+              <Layout><DailyTracker /></Layout>
+            ) : (
+              <Navigate to="/login" />
+            )
+          }
+        />
+
+        <Route
+          path="/split-expense"
+          element={
+            isLoggedIn ? (
+              <Layout><SplitExpense /></Layout>
+            ) : (
+              <Navigate to="/login" />
+            )
+          }
+        />
+
+        <Route
+          path="/balance"
+          element={
+            isLoggedIn ? (
+              <Layout><Balance /></Layout>
+            ) : (
+              <Navigate to="/login" />
+            )
+          }
+        />
 
       </Routes>
     </BrowserRouter>

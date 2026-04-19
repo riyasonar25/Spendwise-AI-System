@@ -5,7 +5,8 @@ function Dashboard() {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-pink-100 via-purple-100 to-indigo-100 flex flex-col items-center p-6">
+    // ❌ REMOVE min-h-screen
+    <div className="bg-gradient-to-br from-pink-100 via-purple-100 to-indigo-100 flex flex-col items-center p-6 w-full">
 
       {/* HERO SECTION */}
       <motion.div
@@ -19,14 +20,13 @@ function Dashboard() {
             SpendWise 💸
           </h1>
 
-          {/* ✅ Gradient Text Fixed */}
-          <p className="bg-gradient-to-r from-purple-400 to-indigo-400 bg-clip-text text-transparent mb-6">
+          <p className="bg-gradient-to-r from-purple-500 to-indigo-500 bg-clip-text text-transparent mb-6">
             Track your spending, split expenses with friends, and manage your finances beautifully.
           </p>
 
           <button
             onClick={() => navigate("/add-expense")}
-            className="px-6 py-3 bg-gradient-to-r from-pink-500 to-purple-500 text-white rounded-xl shadow-md hover:scale-105 transition"
+            className="px-6 py-3 bg-gradient-to-r from-pink-500 to-purple-500 text-black rounded-xl shadow-md hover:scale-105 transition"
           >
             Get Started
           </button>
@@ -34,7 +34,7 @@ function Dashboard() {
 
         {/* RIGHT CARD */}
         <div className="mt-8 md:mt-0">
-          <div className="w-64 h-36 bg-gradient-to-r from-pink-500 to-purple-500 rounded-2xl shadow-lg text-white p-4 flex flex-col justify-between">
+          <div className="w-64 h-36 bg-gradient-to-r from-pink-500 to-purple-500 rounded-2xl shadow-lg text-black p-4 flex flex-col justify-between">
             <p className="text-sm opacity-80">Total Balance</p>
             <h2 className="text-2xl font-bold">₹45,200</h2>
             <p className="text-xs opacity-70">Updated Today</p>
@@ -55,7 +55,7 @@ function Dashboard() {
             key={index}
             whileHover={{ scale: 1.07 }}
             whileTap={{ scale: 0.95 }}
-            className={`cursor-pointer p-6 rounded-2xl text-white shadow-md bg-gradient-to-r ${item.color}`}
+            className={`cursor-pointer p-6 rounded-2xl text-black shadow-md bg-gradient-to-r ${item.color}`}
             onClick={() => navigate(item.path)}
           >
             <h2 className="text-lg font-semibold">{item.title}</h2>
@@ -65,42 +65,39 @@ function Dashboard() {
           </motion.div>
         ))}
       </div>
-
       {/* EXTRA */}
       <div className="mt-16 w-full max-w-5xl text-center">
         <h2 className="text-2xl font-bold text-gray-800 mb-4">
           Why Choose SpendWise?
         </h2>
-        <p className="text-gray-500 mb-10">
+        <p className="text-gray-600 mb-10">
           Clean UI, smart tracking, and easy expense splitting — all in one place.
         </p>
 
         <div className="grid md:grid-cols-3 gap-6">
           <div className="bg-white p-6 rounded-2xl shadow-sm hover:shadow-md transition">
             <h3 className="font-semibold text-lg">📊 Analytics</h3>
-            <p className="text-sm text-gray-500 mt-2">
+            <p className="text-sm text-gray-600 mt-2">
               Visualize your expenses clearly
             </p>
           </div>
 
           <div className="bg-white p-6 rounded-2xl shadow-sm hover:shadow-md transition">
             <h3 className="font-semibold text-lg">⚡ Fast</h3>
-            <p className="text-sm text-gray-500 mt-2">
+            <p className="text-sm text-gray-600 mt-2">
               Lightning fast experience
             </p>
           </div>
 
           <div className="bg-white p-6 rounded-2xl shadow-sm hover:shadow-md transition">
             <h3 className="font-semibold text-lg">🔐 Secure</h3>
-            <p className="text-sm text-gray-500 mt-2">
+            <p className="text-sm text-gray-600 mt-2">
               JWT based secure system
             </p>
           </div>
-        </div>
-      </div>
-
     </div>
+      </div>
+       </div>
   );
 }
-
 export default Dashboard;

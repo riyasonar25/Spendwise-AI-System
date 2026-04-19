@@ -1,99 +1,79 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { motion } from "framer-motion";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  // ✅ Auto redirect if already logged in
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      navigate("/dashboard");
-    }
-  }, []);
-
   const handleLogin = async (e) => {
     e.preventDefault();
 
     if (!email || !password) {
-      alert("Please enter email & password ❌");
+      alert("Enter email & password");
       return;
     }
 
     try {
       const res = await fetch("http://localhost:8083/api/auth/login", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          email,
-          password
-        })
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password })
       });
 
       const data = await res.json();
 
       if (res.ok) {
         localStorage.setItem("token", data.token);
-        alert("Login successful ✅");
 
-        // ✅ FIXED (IMPORTANT)
-        navigate("/dashboard");
-
+        // ✅ FORCE REDIRECT
+        window.location.href = "/dashboard";
       } else {
-        alert(data.message || "Invalid credentials ❌");
+        alert("Invalid credentials");
       }
 
     } catch (err) {
-      console.error(err);
-      alert("Server error ❌");
+      alert("Server error");
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center 
-    bg-gradient-to-br from-pink-100 via-purple-100 to-indigo-100">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-pink-100 via-purple-100 to-indigo-100">
 
-      <motion.div
-        initial={{ opacity: 0, y: 40 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="bg-white/70 backdrop-blur-lg p-8 rounded-3xl shadow-xl w-full max-w-md"
-      >
-        <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">
-          Welcome Back 👋
-        </h2>
+      <form onSubmit={handleLogin} className="bg-white p-8 rounded-2xl shadow-md w-80 space-y-4">
+        <h2 className="text-xl font-bold text-center">Login</h2>
 
-        <form onSubmit={handleLogin} className="space-y-4">
+        <input
+          type="email"
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          className="w-full p-2 border rounded"
+        />
 
-          <input
-            type="email"
-            placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="w-full p-3 rounded-xl border focus:outline-none focus:ring-2 focus:ring-purple-400"
-          />
+        <input
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          className="w-full p-2 border rounded"
+        />
 
-          <input
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="w-full p-3 rounded-xl border focus:outline-none focus:ring-2 focus:ring-purple-400"
-          />
+        <button className="w-full bg-purple-500 text-white py-2 rounded">
+          Login
+        </button>
 
-          <button
-            type="submit"
-            className="w-full py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-xl shadow-md hover:scale-105 transition"
+        <p className="text-center text-sm">
+          Don't have account?{" "}
+          <span
+            onClick={() => navigate("/register")}
+            className="text-purple-600 cursor-pointer"
           >
-            Login
-          </button>
+            Register
+          </span>
+        </p>
 
-        </form>
-      </motion.div>
+      </form>
     </div>
   );
 }
