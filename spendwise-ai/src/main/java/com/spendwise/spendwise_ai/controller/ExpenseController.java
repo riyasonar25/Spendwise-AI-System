@@ -59,6 +59,19 @@ public class ExpenseController {
     return expenseService.getAllExpenses(email);
     }
 
+   
+// ✅ GET EXPENSES BY DATE
+
+@GetMapping("/date/{date}")
+public List<Expense> getExpensesByDate(@PathVariable LocalDate date) {
+
+    String email = SecurityContextHolder
+            .getContext()
+            .getAuthentication()
+            .getName();
+
+    return expenseService.getExpensesByDate(date, email);
+}
 
 
     // ✅ UPDATE EXPENSE
@@ -142,7 +155,7 @@ public class ExpenseController {
 
     return expenseService.getCategorySummaryByMonth(year, month, email);
     }
-
+    
 
 
 }
