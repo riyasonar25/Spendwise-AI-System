@@ -27,4 +27,5 @@ public interface ExpenseService {
     List<CategorySummaryDTO> getCategorySummaryBetweenDates(LocalDate start, LocalDate end, String email);
 
     List<CategorySummaryDTO> getCategorySummaryByMonth(int year, int month, String email);
+    List<Expense> getExpensesByDate(LocalDate date, String email);
 }

@@ -10,16 +10,16 @@ function Layout() {
       <div className="w-64 min-h-screen bg-gradient-to-b from-purple-400 to-indigo-400 p-6 text-black">
 
         <h2 className="text-2xl font-bold mb-8 cursor-pointer"
-            onClick={() => navigate("/dashboard")}>
+            onClick={() => navigate("/")}className="cursor-pointer">
           💰 SpendWise
         </h2>
 
         <ul className="space-y-4">
-          <li onClick={() => navigate("/dashboard")} className="cursor-pointer">Dashboard</li>
-          <li onClick={() => navigate("/add-expense")} className="cursor-pointer">Add Expense</li>
-          <li onClick={() => navigate("/daily-tracker")} className="cursor-pointer">Daily Tracker</li>
-          <li onClick={() => navigate("/split-expense")} className="cursor-pointer">Split Expense</li>
-          <li onClick={() => navigate("/balance")} className="cursor-pointer">Balance</li>
+          <li onClick={() => navigate("/dashboard")} >Dashboard</li>
+          <li onClick={() => navigate("/add-expense")} >Add Expense</li>
+          <li onClick={() => navigate("/daily-tracker")} >Daily Tracker</li>
+          <li onClick={() => navigate("/split-expense")} >Split Expense</li>
+          <li onClick={() => navigate("/balance")} >Balance</li>
         </ul>
 
         {/* ✅ LOGOUT */}
@@ -37,7 +37,7 @@ function Layout() {
 
       {/* MAIN CONTENT */}
       <div className="flex-1 p-6">
-        <Outlet />
+        <Outlet /> {/* ⭐ MUST BE HERE */}
       </div>
 
     </div>

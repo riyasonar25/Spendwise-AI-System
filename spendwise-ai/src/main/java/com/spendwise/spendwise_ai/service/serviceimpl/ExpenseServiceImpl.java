@@ -29,30 +29,42 @@ public class ExpenseServiceImpl implements ExpenseService {
     }
 
     // ✅ CREATE
-    @Override
-    public ExpenseResponseDTO createExpense(ExpenseRequestDTO requestDTO, String email) {
+@Override
+public ExpenseResponseDTO createExpense(ExpenseRequestDTO requestDTO, String email) {
 
-        User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+    User user = userRepository.findByEmail(email)
+            .orElseThrow(() -> new RuntimeException("User not found"));
 
-        Expense expense = new Expense();
-        expense.setTitle(requestDTO.getTitle());
-        expense.setAmount(requestDTO.getAmount());
-        expense.setCategory(requestDTO.getCategory());
-        expense.setDate(requestDTO.getDate());
-        expense.setUser(user);   // 🔥 Link expense to logged-in user
+    Expense expense = new Expense();
 
-        Expense saved = expenseRepository.save(expense);
+    expense.setTitle(requestDTO.getTitle());
+    expense.setAmount(requestDTO.getAmount());
+    expense.setCategory(requestDTO.getCategory());
+    expense.setDate(requestDTO.getDate());
 
-        return new ExpenseResponseDTO(
-                saved.getId(),
-                saved.getTitle(),
-                saved.getAmount(),
-                saved.getCategory(),
-                saved.getDate()
-        );
-    }
+    // ✅ ADD THIS
+    expense.setMonth(requestDTO.getDate().getMonthValue());
+    expense.setYear(requestDTO.getDate().getYear());
 
+    expense.setUser(user);
+
+    Expense saved = expenseRepository.save(expense);
+
+    return new ExpenseResponseDTO(
+            saved.getId(),
+            saved.getTitle(),
+            saved.getAmount(),
+            saved.getCategory(),
+            saved.getDate()
+    );
+ }
+
+ // ✅ GET EXPENSES BY DATE
+@Override
+public List<Expense> getExpensesByDate(LocalDate date, String email) {
+
+    return expenseRepository.findByUserEmailAndDate(email, date);
+}
     // ✅ GET BY ID
     @Override
     public Expense getExpenseById(Long id, String email) {

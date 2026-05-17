@@ -17,64 +17,26 @@ function App() {
     <BrowserRouter>
       <Routes>
 
-        {/* ✅ PUBLIC ROUTES */}
+        {/* Public Routes */}
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
 
-        {/* ✅ DEFAULT */}
-        <Route path="/" element={<Navigate to="/login" />} />
-
-        {/* ✅ PROTECTED ROUTES */}
+        {/* Protected Layout Routes */}
         <Route
-          path="/dashboard"
+          path="/"
           element={isLoggedIn ? <Layout /> : <Navigate to="/login" />}
         >
+
           <Route index element={<Dashboard />} />
+          <Route path="add-expense" element={<AddExpense />} />
+          <Route path="daily-tracker" element={<DailyTracker />} />
+          <Route path="split-expense" element={<SplitExpense />} />
+          <Route path="balance" element={<Balance />} />
+
         </Route>
 
-        <Route
-          path="/add-expense"
-          element={
-            isLoggedIn ? (
-              <Layout><AddExpense /></Layout>
-            ) : (
-              <Navigate to="/login" />
-            )
-          }
-        />
-
-        <Route
-          path="/daily-tracker"
-          element={
-            isLoggedIn ? (
-              <Layout><DailyTracker /></Layout>
-            ) : (
-              <Navigate to="/login" />
-            )
-          }
-        />
-
-        <Route
-          path="/split-expense"
-          element={
-            isLoggedIn ? (
-              <Layout><SplitExpense /></Layout>
-            ) : (
-              <Navigate to="/login" />
-            )
-          }
-        />
-
-        <Route
-          path="/balance"
-          element={
-            isLoggedIn ? (
-              <Layout><Balance /></Layout>
-            ) : (
-              <Navigate to="/login" />
-            )
-          }
-        />
+        {/* Default Redirect */}
+        <Route path="*" element={<Navigate to="/" />} />
 
       </Routes>
     </BrowserRouter>

@@ -10,7 +10,7 @@ function AddExpense() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!amount || !category || !title || !date) {
+    if (!amount || !category || !title || !date ) {
       alert("Please fill all fields ❌");
       return;
     }
@@ -19,7 +19,9 @@ function AddExpense() {
       amount: Number(amount),
       category,
       title,
-      date
+      date,
+      month: new Date(date).getMonth() + 1,
+      year: new Date(date).getFullYear(),
     };
 
     try {
