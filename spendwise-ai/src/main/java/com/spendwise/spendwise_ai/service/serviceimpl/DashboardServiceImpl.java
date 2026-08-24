@@ -172,7 +172,7 @@ public class DashboardServiceImpl implements DashboardService {
 public DailySummaryDTO getDailySummary(LocalDate date, String email) {
 
     List<Expense> expenses =
-            expenseRepository.findByUserEmailAndDate(email, date);
+            expenseRepository.getExpensesByDate(email, date);
 
     double totalAmount = expenses.stream()
             .mapToDouble(Expense::getAmount)

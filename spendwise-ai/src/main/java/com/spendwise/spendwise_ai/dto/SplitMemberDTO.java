@@ -7,5 +7,6 @@ public class SplitMemberDTO {
 
     private String email;
     private double amount;
+    private String name;
 
 }

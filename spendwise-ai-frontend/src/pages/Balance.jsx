@@ -15,19 +15,36 @@ function Balance() {
 
       const res = await fetch("http://localhost:8083/api/expenses", {
         headers: {
-          "Authorization": `Bearer ${token}`
-        }
+          Authorization: `Bearer ${token}`,
+        },
       });
 
+      if (!res.ok) {
+        throw new Error("Failed to fetch expenses");
+      }
+
       const data = await res.json();
-      setExpenses(data);
 
-      // calculate total
-      const totalAmount = data.reduce((sum, item) => sum + item.amount, 0);
+      // Latest expense first
+      const sortedExpenses = [...data].sort((a, b) => {
+        const dateA = new Date(a.date || 0);
+        const dateB = new Date(b.date || 0);
+
+        return dateB - dateA;
+      });
+
+      setExpenses(sortedExpenses);
+
+      const totalAmount = sortedExpenses.reduce(
+        (sum, item) => sum + Number(item.amount || 0),
+        0
+      );
+
       setTotal(totalAmount);
-
     } catch (err) {
-      console.error(err);
+      console.error("Error fetching expenses:", err);
+      setExpenses([]);
+      setTotal(0);
     }
   };
 
@@ -47,8 +64,16 @@ function Balance() {
 
         {/* TOTAL CARD */}
         <div className="bg-gradient-to-r from-pink-500 to-purple-500 text-white p-6 rounded-2xl shadow-lg text-center mb-10">
-          <p className="text-sm opacity-80">Total Expenses</p>
-          <h1 className="text-3xl font-bold mt-2">₹ {total}</h1>
+          <p className="text-sm opacity-80">
+            Total Expenses
+          </p>
+
+          <h1 className="text-3xl font-bold mt-2">
+            ₹ {total.toLocaleString("en-IN", {
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2,
+            })}
+          </h1>
         </div>
 
         {/* EXPENSE LIST */}
@@ -59,29 +84,51 @@ function Balance() {
           </h3>
 
           {expenses.length === 0 ? (
-            <p className="text-gray-500">No expenses found</p>
+            <div className="text-center py-10">
+              <p className="text-gray-500">
+                No expenses found
+              </p>
+              <p className="text-sm text-gray-400 mt-2">
+                Add your first expense to see it here.
+              </p>
+            </div>
           ) : (
             <div className="space-y-3">
+
               {expenses.map((exp, index) => (
                 <div
-                  key={index}
+                  key={exp.id || index}
                   className="flex justify-between items-center p-3 border rounded-lg hover:shadow-sm"
                 >
+
                   <div>
-                    <p className="font-semibold">{exp.title}</p>
-                    <p className="text-sm text-gray-500">{exp.category}</p>
+                    <p className="font-semibold">
+                      {exp.title}
+                    </p>
+
+                    <p className="text-sm text-gray-500">
+                      {exp.category}
+                    </p>
                   </div>
 
                   <div className="text-right">
+
                     <p className="font-bold text-purple-600">
-                      ₹ {exp.amount}
+                      ₹ {Number(exp.amount || 0).toLocaleString("en-IN", {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2,
+                      })}
                     </p>
+
                     <p className="text-xs text-gray-400">
                       {exp.date}
                     </p>
+
                   </div>
+
                 </div>
               ))}
+
             </div>
           )}
 

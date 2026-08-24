@@ -25,6 +25,7 @@ function DailyTracker() {
       );
 
       const data = await res.json();
+      console.log(data);
       setExpenses(data);
 
       // total calculate

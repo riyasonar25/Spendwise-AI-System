@@ -3,6 +3,9 @@ package com.spendwise.spendwise_ai.model;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+
 @Entity
 @Table(name = "expense")
 public class Expense {
@@ -24,9 +27,9 @@ public class Expense {
     private int year;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
-
+@JoinColumn(name = "user_id")
+@JsonIgnoreProperties({"expenses"})
+private User user;
     // Getters & Setters
 
     public Long getId() {

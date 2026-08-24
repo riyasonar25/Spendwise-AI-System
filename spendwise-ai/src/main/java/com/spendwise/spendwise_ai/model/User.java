@@ -2,6 +2,8 @@ package com.spendwise.spendwise_ai.model;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -22,7 +24,8 @@ public class User {
     private String email;
 
     private String password;
+
+    @JsonIgnore    // ⭐ IMPORTANT
     @OneToMany(mappedBy = "user")
     private List<Expense> expenses;
-
 }

@@ -63,15 +63,29 @@ public ExpenseResponseDTO createExpense(ExpenseRequestDTO requestDTO, String ema
 @Override
 public List<Expense> getExpensesByDate(LocalDate date, String email) {
 
-    return expenseRepository.findByUserEmailAndDate(email, date);
-}
-    // ✅ GET BY ID
-    @Override
-    public Expense getExpenseById(Long id, String email) {
+    System.out.println("================================");
+    System.out.println("DATE RECEIVED : " + date);
+    System.out.println("EMAIL RECEIVED: " + email);
 
-        return expenseRepository.findByIdAndUserEmail(id, email)
-                .orElseThrow(() -> new RuntimeException("Expense not found"));
+    List<Expense> expenses =
+            expenseRepository.findByUserEmailAndDate(email, date);
+
+    System.out.println("TOTAL EXPENSES FOUND: " + expenses.size());
+
+    for (Expense e : expenses) {
+        System.out.println(
+                "ID: " + e.getId()
+                + " | TITLE: " + e.getTitle()
+                + " | AMOUNT: " + e.getAmount()
+                + " | DATE: " + e.getDate()
+                + " | USER_ID: " + e.getUser().getId()
+        );
     }
+
+    System.out.println("================================");
+
+    return expenses;
+}
 
     // ✅ GET ALL
     @Override
@@ -174,4 +188,11 @@ public List<Expense> getExpensesByDate(LocalDate date, String email) {
                 ))
                 .collect(Collectors.toList());
     }
+    // ✅ GET BY ID
+@Override
+public Expense getExpenseById(Long id, String email) {
+
+    return expenseRepository.findByIdAndUserEmail(id, email)
+            .orElseThrow(() -> new RuntimeException("Expense not found"));
+}
 }

@@ -9,6 +9,7 @@ import AddExpense from "./pages/AddExpense";
 import DailyTracker from "./pages/DailyTracker";
 import SplitExpense from "./pages/SplitExpense";
 import Balance from "./pages/Balance";
+import SplitRecord from "./pages/SplitRecord";
 
 function App() {
   const isLoggedIn = !!localStorage.getItem("token");
@@ -17,26 +18,65 @@ function App() {
     <BrowserRouter>
       <Routes>
 
-        {/* Public Routes */}
+        {/* =========================
+            PUBLIC ROUTES
+        ========================= */}
+
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
 
-        {/* Protected Layout Routes */}
+
+        {/* =========================
+            PROTECTED ROUTES
+        ========================= */}
+
         <Route
           path="/"
-          element={isLoggedIn ? <Layout /> : <Navigate to="/login" />}
+          element={
+            isLoggedIn
+              ? <Layout />
+              : <Navigate to="/login" />
+          }
         >
 
           <Route index element={<Dashboard />} />
-          <Route path="add-expense" element={<AddExpense />} />
-          <Route path="daily-tracker" element={<DailyTracker />} />
-          <Route path="split-expense" element={<SplitExpense />} />
-          <Route path="balance" element={<Balance />} />
+
+          <Route
+            path="add-expense"
+            element={<AddExpense />}
+          />
+
+          <Route
+            path="daily-tracker"
+            element={<DailyTracker />}
+          />
+
+          <Route
+            path="split-expense"
+            element={<SplitExpense />}
+          />
+
+          <Route
+            path="split-record"
+            element={<SplitRecord />}
+          />
+
+          <Route
+            path="balance"
+            element={<Balance />}
+          />
 
         </Route>
 
-        {/* Default Redirect */}
-        <Route path="*" element={<Navigate to="/" />} />
+
+        {/* =========================
+            DEFAULT REDIRECT
+        ========================= */}
+
+        <Route
+          path="*"
+          element={<Navigate to="/" />}
+        />
 
       </Routes>
     </BrowserRouter>

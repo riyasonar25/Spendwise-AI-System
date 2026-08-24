@@ -91,7 +91,15 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long> {
             @Param("email") String email
     );
       List<Expense> findByUserEmailAndDateBetween(String email, LocalDate startDate, LocalDate endDate);
-
+    @Query("""
+    SELECT e FROM Expense e
+    WHERE e.user.email = :email
+    AND e.date = :date
+""")
+List<Expense> getExpensesByDate(
+        @Param("email") String email,
+        @Param("date") LocalDate date
+);
       List<Expense> findByUserEmailAndDate(String email, LocalDate date);
 
 }

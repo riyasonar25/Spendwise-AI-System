@@ -8,10 +8,36 @@ import com.spendwise.spendwise_ai.model.SplitGroup;
 
 public interface SplitService {
 
-    SplitGroup createGroup(String groupName, String createdBy);
+    // =========================================================
+    // CREATE GROUP
+    // =========================================================
 
-    void addSplitExpense(SplitExpenseRequestDTO request);
+    SplitGroup createGroup(
+            String groupName,
+            String createdBy
+    );
 
-    List<BalanceDTO> calculateBalance(Long groupId);
+    // =========================================================
+    // ADD SPLIT EXPENSE
+    // =========================================================
 
+    void addSplitExpense(
+            SplitExpenseRequestDTO request
+    );
+
+    // =========================================================
+    // CALCULATE BALANCE
+    // =========================================================
+
+    List<BalanceDTO> calculateBalance(
+            Long groupId
+    );
+
+    // =========================================================
+    // DELETE SPLIT EXPENSE
+    // =========================================================
+
+    String deleteSplitExpense(
+            Long expenseId
+    );
 }
